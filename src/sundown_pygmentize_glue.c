@@ -10,16 +10,18 @@
 #define INLINE_CODE_TAG "`"
 #define INLINE_CODE_TAG_LEN (sizeof(INLINE_CODE_TAG) - 1)
 
-#define SUNDOWN_PYGMENTIZE_GLUE_TMP_IN "sundown_pygmentize_glue_tmp_in"
-#define SUNDOWN_PYGMENTIZE_GLUE_TMP_OUT "sundown_pygmentize_glue_tmp_out"
+#define SUNDOWN_PYGMENTIZE_GLUE_TMP_IN "sundown_pygmentize_glue_tmp_in.bin"
+#define SUNDOWN_PYGMENTIZE_GLUE_TMP_OUT "sundown_pygmentize_glue_tmp_out.bin"
 #define SUNDOWN_PYGMENTIZE_GLUE_STUB_ "SUNDOWNPYGMENTIZEGLUESTUB"
 #define SUNDOWN_PYGMENTIZE_GLUE_STUB_LEN (sizeof(SUNDOWN_PYGMENTIZE_GLUE_STUB_) - 1)
 #define SUNDOWN_PYGMENTIZE_GLUE_CSS_FILE "./style.css"
 
 #if defined(_WIN32) || defined(__CYGWIN__)
-#define WIN_BAT_NAME ".bat"
+#define PYGMENTIZE_CMD "type ./" SUNDOWN_PYGMENTIZE_GLUE_TMP_IN " | pygmentize.bat -l %s -f html -o ./" SUNDOWN_PYGMENTIZE_GLUE_TMP_OUT
+#define SUNDOWN_CMD "sundown.exe ./" SUNDOWN_PYGMENTIZE_GLUE_TMP_IN "> ./" SUNDOWN_PYGMENTIZE_GLUE_TMP_OUT
 #else
-#define WIN_BAT_NAME ""
+#define PYGMENTIZE_CMD "cat ./" SUNDOWN_PYGMENTIZE_GLUE_TMP_IN " | ./pygmentize -l %s -f html -o ./" SUNDOWN_PYGMENTIZE_GLUE_TMP_OUT
+#define SUNDOWN_CMD "./sundown ./" SUNDOWN_PYGMENTIZE_GLUE_TMP_IN "> ./" SUNDOWN_PYGMENTIZE_GLUE_TMP_OUT
 #endif
 
 typedef struct _block_t
@@ -302,7 +304,7 @@ int main(int argc, char *argv[])
     
     //fprintf(out, "%s", glue_block.content);
     memset(&sundown_output_block, 0, sizeof(sundown_output_block));
-    result = dispatch_tool("./sundown ./" SUNDOWN_PYGMENTIZE_GLUE_TMP_IN "> ./" SUNDOWN_PYGMENTIZE_GLUE_TMP_OUT,
+    result = dispatch_tool(SUNDOWN_CMD,
         &glue_block,
         &sundown_output_block);
     if (0 != result)
@@ -353,7 +355,7 @@ int main(int argc, char *argv[])
                 if (pyg_in->lexer[0])
                 {
                     sprintf(cmdline,
-                        "cat ./" SUNDOWN_PYGMENTIZE_GLUE_TMP_IN " | ./pygmentize" WIN_BAT_NAME " -l %s -f html -o ./" SUNDOWN_PYGMENTIZE_GLUE_TMP_OUT,
+                        PYGMENTIZE_CMD,
                         pyg_in->lexer);
                     result = dispatch_tool(cmdline,
                         pyg_in,

@@ -10,7 +10,7 @@ sundown_pygmentize_glue
 4. Glue all outputs.
 
 ## Usage(Windows XP) ##
-1. Download the precompiled package and extract to any place then cd to that place and `make clean && make`.
+1. Download the precompiled package and extract to any place then cd to that place.
 2. `cat README.md | ./sundown_pygmentize_glue > README.html`
 
 ## Usage(linux) ##

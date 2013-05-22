@@ -11,6 +11,7 @@ sundown_pygmentize_glue
 
 ## Usage(Windows XP) ##
 `cd sundown_pygmentize_glue`
+
 `type README.md | sundown_pygmentize_glue.exe > README.html`
 
 ## Usage(linux) ##

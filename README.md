@@ -10,9 +10,11 @@ sundown_pygmentize_glue
 4. Glue all outputs.
 
 ## Usage(Windows XP) ##
-`cd sundown_pygmentize_glue`
-
-`type README.md | sundown_pygmentize_glue.exe > README.html`
+```bat
+    # git downlaod the project
+    cd sundown_pygmentize_glue
+    type README.md | sundown_pygmentize_glue.exe > README.html
+```
 
 ## Usage(linux) ##
 I have not test it on linux, but i think it will works as the same as on windows. You should compile Sundown and install Pygmentize.

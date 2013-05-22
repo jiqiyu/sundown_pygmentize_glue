@@ -1,0 +1,21 @@
+CFLAGS=/O2 /EHsc /I"src/"
+CC=cl
+
+OBJS=\
+	src\sundown_pygmentize_glue.obj
+
+all: sundown_pygmentize_glue.exe
+
+sundown_pygmentize_glue.exe: $(OBJS)
+	$(CC) $(OBJS) /link $(LDFLAGS) /out:$@
+
+# housekeeping
+clean:
+	del $(OBJS)
+	del sundown.exe
+
+# generic object compilations
+
+.c.obj:
+	$(CC) $(CFLAGS) /c $< /Fo$@
+

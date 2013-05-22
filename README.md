@@ -11,7 +11,7 @@ sundown_pygmentize_glue
 
 ## Usage(Windows XP) ##
 ```bat
-    # downlaod the project
+    REM downlaod the project
     cd sundown_pygmentize_glue
     type README.md | sundown_pygmentize_glue.exe > README.html
 ```

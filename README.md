@@ -11,10 +11,17 @@ sundown_pygmentize_glue
 
 ## Usage(Windows XP) ##
 ```bat
-    REM downlaod the project
-    cd sundown_pygmentize_glue
+    REM Install python and set Environment Variable; set PATH=C:\Python27;%PATH%
+    REM Downlaod this project; https://github.com/huxingyi/sundown_pygmentize_glue/archive/master.zip
+    REM Change directory to this project; cd sundown_pygmentize_glue-master
     type README.md | sundown_pygmentize_glue.exe > README.html
 ```
 
 ## Usage(linux) ##
-I have not test it on linux, but i think it will works as the same as on windows. You should compile Sundown and install Pygmentize.
+I have not test it on linux, but i think it will works as the same as on windows. You should compile Sundown and install Pygments.
+
+## How did i compile sundown ##
+ change sundown/examples/sundown.c to enable all mkd_extensions:
+```c
+    markdown = sd_markdown_new(0xff, 16, &callbacks, &options);
+```

@@ -17,7 +17,7 @@
 #define SUNDOWN_PYGMENTIZE_GLUE_CSS_FILE "./style.css"
 
 #if defined(_WIN32) || defined(__CYGWIN__)
-#define PYGMENTIZE_CMD "type ./" SUNDOWN_PYGMENTIZE_GLUE_TMP_IN " | pygmentize.bat -l %s -f html -o ./" SUNDOWN_PYGMENTIZE_GLUE_TMP_OUT
+#define PYGMENTIZE_CMD "type " SUNDOWN_PYGMENTIZE_GLUE_TMP_IN " | pygmentize.bat -l %s -f html -o ./" SUNDOWN_PYGMENTIZE_GLUE_TMP_OUT
 #define SUNDOWN_CMD "sundown.exe ./" SUNDOWN_PYGMENTIZE_GLUE_TMP_IN "> ./" SUNDOWN_PYGMENTIZE_GLUE_TMP_OUT
 #else
 #define PYGMENTIZE_CMD "cat ./" SUNDOWN_PYGMENTIZE_GLUE_TMP_IN " | ./pygmentize -l %s -f html -o ./" SUNDOWN_PYGMENTIZE_GLUE_TMP_OUT
@@ -303,6 +303,7 @@ int main(int argc, char *argv[])
     }
     
     //fprintf(out, "%s", glue_block.content);
+    //fprintf(stderr, "begin:%s\r\n", SUNDOWN_CMD);
     memset(&sundown_output_block, 0, sizeof(sundown_output_block));
     result = dispatch_tool(SUNDOWN_CMD,
         &glue_block,
@@ -312,7 +313,7 @@ int main(int argc, char *argv[])
         fprintf(stderr, "sundown failed.\r\n");
         goto failed;
     }
-    
+    //fprintf(stderr, "end:%s\r\n", SUNDOWN_CMD);
     p = sundown_output_block.content;
     stop = p + sundown_output_block.length;
     
@@ -357,9 +358,11 @@ int main(int argc, char *argv[])
                     sprintf(cmdline,
                         PYGMENTIZE_CMD,
                         pyg_in->lexer);
+                    //fprintf(stderr, "begin:%s\r\n", cmdline);
                     result = dispatch_tool(cmdline,
                         pyg_in,
                         &pyg_out);
+                    //fprintf(stderr, "end:%s result:%d\r\n", cmdline, result);
                 }
                 if (0 == result)
                 {

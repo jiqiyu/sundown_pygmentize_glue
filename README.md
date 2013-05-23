@@ -15,6 +15,7 @@ sundown_pygmentize_glue
     REM Downlaod this project; https://github.com/huxingyi/sundown_pygmentize_glue/archive/master.zip
     REM Change directory to this project; cd sundown_pygmentize_glue-master
     type README.md | sundown_pygmentize_glue.exe > README.html
+    REM If you have installed cygwin, please use: cat README.md | ./sundown_pygmentize_glue > README.html
 ```
 
 ## Usage(linux) ##

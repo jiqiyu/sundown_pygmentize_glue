@@ -28,4 +28,5 @@ I have not test it on linux, but i think it will works as the same as on windows
 ```
 
 ## Charset ##
-Only supports "utf-8". utf-8 in utf-8 out. Other charset in, error out.
+Only supports "utf-8". utf-8 in utf-8 out. 
+You could replace all "utf-8" in `pygmentize.bat` and `src/sundown_pygmentize_glue.c` to support other charsets.

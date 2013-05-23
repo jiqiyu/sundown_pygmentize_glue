@@ -12,7 +12,7 @@ sundown_pygmentize_glue.exe: $(OBJS)
 # housekeeping
 clean:
 	del $(OBJS)
-	del sundown.exe
+	del sundown_pygmentize_glue.exe
 
 # generic object compilations
 

@@ -26,3 +26,6 @@ I have not test it on linux, but i think it will works as the same as on windows
 ```c
     markdown = sd_markdown_new(0xff, 16, &callbacks, &options);
 ```
+
+## Charset ##
+Only supports "utf-8". utf-8 in utf-8 out. Other charset in, error out.

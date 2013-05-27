@@ -1,13 +1,13 @@
 WHAT IS SUNDOWN_PYGMENTIZE_GLUE?  
 sundown_pygmentize_glue is a command line tool that translates Markdown to HTML with syntax highlight.
 
-HOW IT WORKS?
+HOW IT WORKS?  
 1. Extract codes surrounded by "\`\`\`"(block code) or "\`"(inline code).
 2. [Sundown(Markdown to html)](https://github.com/vmg/sundown) the full document not containing codes.
 3. [Pygmentize(syntax highlighting)](http://pygments.org) the extracted codes.
 4. Glue all outputs.
 
-USAGE(WINDOWS XP):
+USAGE(WINDOWS XP):  
 ```bat
     REM Install python and set Environment Variable; set PATH=C:\Python27;%PATH%
     REM Downlaod this project; https://github.com/huxingyi/sundown_pygmentize_glue/archive/master.zip
@@ -16,10 +16,10 @@ USAGE(WINDOWS XP):
     REM If you have installed cygwin, please use: cat README.md | ./sundown_pygmentize_glue > README.html
 ```
 
-USAGE(LINUX):
+USAGE(LINUX):  
 I have not test it on linux, but i think it will works as the same as on windows. You should compile Sundown and install Pygments.
 
-USAGE(EMACS):
+USAGE(EMACS):  
 ```lisp
 ;; markdown2html
 (defun m2h (filename)
@@ -42,12 +42,12 @@ https://github.com/huxingyi/sundown_pygmentize_glue
     (message "Error: file does not exist.")))
 ```
 
-HOW DO I COMPILE THE SUNDOWN?
+HOW DO I COMPILE THE SUNDOWN?  
  Modify this line in sundown/examples/sundown.c to enable all mkd_extensions:
 ```c
     markdown = sd_markdown_new(0xff, 16, &callbacks, &options);
 ```
 
-CHARSET:
+CHARSET:  
 Only supports "utf-8". utf-8 in utf-8 out. 
 You could replace all "utf-8" in `pygmentize.bat` and `src/sundown_pygmentize_glue.c` to support other charsets.

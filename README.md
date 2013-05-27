@@ -1,4 +1,4 @@
-WHAT IS SUNDOWN_PYGMENTIZE_GLUE?
+WHAT IS SUNDOWN_PYGMENTIZE_GLUE?  
 sundown_pygmentize_glue is a command line tool that translates Markdown to HTML with syntax highlight.
 
 HOW IT WORKS?

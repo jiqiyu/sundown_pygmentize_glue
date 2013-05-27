@@ -21,6 +21,29 @@ sundown_pygmentize_glue
 ## Usage(linux) ##
 I have not test it on linux, but i think it will works as the same as on windows. You should compile Sundown and install Pygments.
 
+## Usage(emacs) ##
+```lisp
+;; markdown2html
+(defun m2h (filename)
+  "Convert markdown to html. Usage: M-x m2h <RET>
+The tool 'sundown_pygmentize_glue' is needed, which can be downloaded at
+https://github.com/huxingyi/sundown_pygmentize_glue
+"
+  (interactive
+   "sFilename, enter the absolute path to file(default is current buffer): ")
+  (setq f filename)
+  (setq cmd0 "cd d:/files/bin/sundown_pygmentize_glue-master && cat ")
+  (setq cmd_t " | sundown_pygmentize_glue.exe > ")
+  (if (string-equal "" f)
+      (setq f (buffer-file-name)))
+  (string-match "\.[a-zA-Z0-9]+$" f)
+  (setq dest (replace-match "_\.html" nil nil f))
+  (setq cmd_tt (concat " && start " dest))
+  (if (file-exists-p f)
+      (shell-command (concat cmd0 f cmd_t dest cmd_tt))
+    (message "Error: file does not exist.")))
+```
+
 ## How did i compile sundown ##
  change sundown/examples/sundown.c to enable all mkd_extensions:
 ```c

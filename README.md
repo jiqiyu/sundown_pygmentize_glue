@@ -34,10 +34,10 @@ https://github.com/huxingyi/sundown_pygmentize_glue
     (if (string-equal "" f)
         (setq f (buffer-file-name)))
     (string-match "\.[a-zA-Z0-9]+$" f)
-    (setq m2ht_dest (replace-match "_\.html" nil nil f))
-    (setq m2ht_cmd_tt (concat " && start " m2ht_dest))
+    (setq m2h_dest (replace-match "_\.html" nil nil f))
+    (setq m2h_cmd_tt (concat " && start " m2h_dest))
     (if (file-exists-p f)
-        (shell-command (concat cmd0 f cmd_t m2ht_dest m2ht_cmd_tt))
+        (shell-command (concat cmd0 f cmd_t m2h_dest m2h_cmd_tt))
       (message "Error: file does not exist."))))
 ```
 

@@ -27,19 +27,18 @@ USAGE(EMACS):
 The tool 'sundown_pygmentize_glue' is needed, which can be downloaded at
 https://github.com/huxingyi/sundown_pygmentize_glue
 "
-  (interactive
-   "sFilename, enter the absolute path to file(default is current buffer): ")
-  (setq f filename)
-  (setq cmd0 "cd d:/files/bin/sundown_pygmentize_glue-master && cat ")
-  (setq cmd_t " | sundown_pygmentize_glue.exe > ")
-  (if (string-equal "" f)
-      (setq f (buffer-file-name)))
-  (string-match "\.[a-zA-Z0-9]+$" f)
-  (setq dest (replace-match "_\.html" nil nil f))
-  (setq cmd_tt (concat " && start " dest))
-  (if (file-exists-p f)
-      (shell-command (concat cmd0 f cmd_t dest cmd_tt))
-    (message "Error: file does not exist.")))
+  (interactive "sFilename, enter the absolute path to file(default is current buffer): ")
+  (let ((f filename)
+        (cmd0 "cd /d d:/files/bin/sundown_pygmentize_glue-master && cat ")
+        (cmd_t " | sundown_pygmentize_glue.exe > "))
+    (if (string-equal "" f)
+        (setq f (buffer-file-name)))
+    (string-match "\.[a-zA-Z0-9]+$" f)
+    (setq m2ht_dest (replace-match "_\.html" nil nil f))
+    (setq m2ht_cmd_tt (concat " && start " m2ht_dest))
+    (if (file-exists-p f)
+        (shell-command (concat cmd0 f cmd_t m2ht_dest m2ht_cmd_tt))
+      (message "Error: file does not exist."))))
 ```
 
 HOW DO I COMPILE THE SUNDOWN?  

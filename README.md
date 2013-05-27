@@ -29,12 +29,15 @@ https://github.com/huxingyi/sundown_pygmentize_glue
 "
   (interactive "sFilename, enter the absolute path to file(default is current buffer): ")
   (let ((f filename)
+        ;; here you should replace the path to your own
         (cmd0 "cd /d d:/files/bin/sundown_pygmentize_glue-master && cat ")
         (cmd_t " | sundown_pygmentize_glue.exe > "))
     (if (string-equal "" f)
         (setq f (buffer-file-name)))
-    (string-match "\.[a-zA-Z0-9]+$" f)
-    (setq m2h_dest (replace-match "_\.html" nil nil f))
+    (if (string-match "\.[a-zA-Z0-9]+$" f)
+        (if (> (string-match "\.[a-zA-Z0-9]+$" f) 0)
+            (setq m2h_dest (replace-match "_\.html" nil nil f)))
+      (setq m2h_dest (concat f "_\.html")))
     (setq m2h_cmd_tt (concat " && start " m2h_dest))
     (if (file-exists-p f)
         (shell-command (concat cmd0 f cmd_t m2h_dest m2h_cmd_tt))

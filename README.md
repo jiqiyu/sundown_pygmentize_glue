@@ -31,16 +31,18 @@ https://github.com/huxingyi/sundown_pygmentize_glue
   (let ((f filename)
         ;; here you should replace the path to your own
         (cmd0 "cd /d d:/files/bin/sundown_pygmentize_glue-master && cat ")
-        (cmd_t " | sundown_pygmentize_glue.exe > "))
+        (cmd_t " | sundown_pygmentize_glue.exe > ")
+        cmd_tt
+        dest)
     (if (string-equal "" f)
         (setq f (buffer-file-name)))
     (string-match "[\.][a-zA-Z0-9]+$" f)
     (if (file-name-extension f)
-        (setq m2h_dest (replace-match "_\.html" nil nil f))
-      (setq m2h_dest (concat f "_\.html")))
-    (setq m2h_cmd_tt (concat " && start " m2h_dest))
+        (setq dest (replace-match "_\.html" nil nil f))
+      (setq dest (concat f "_\.html")))
+    (setq cmd_tt (concat " && start " dest))
     (if (file-exists-p f)
-        (shell-command (concat cmd0 f cmd_t m2h_dest m2h_cmd_tt))
+        (shell-command (concat cmd0 f cmd_t dest cmd_tt))
       (message "Error: file does not exist."))))
 ```
 

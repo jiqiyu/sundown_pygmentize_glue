@@ -18,9 +18,12 @@
 
 #define NL "\n"
 
-#if defined(_WIN32)/* || defined(__CYGWIN__)*/
+#if defined(_WIN32)
 #define PYGMENTIZE_CMD "type " SUNDOWN_PYGMENTIZE_GLUE_TMP_IN " | pygmentize.bat -l %s -f html -o ./" SUNDOWN_PYGMENTIZE_GLUE_TMP_OUT
 #define SUNDOWN_CMD "sundown.exe ./" SUNDOWN_PYGMENTIZE_GLUE_TMP_IN "> ./" SUNDOWN_PYGMENTIZE_GLUE_TMP_OUT
+#elif defined(__CYGWIN__)
+#define PYGMENTIZE_CMD "cat " SUNDOWN_PYGMENTIZE_GLUE_TMP_IN " | ./pygmentize.bat -l %s -f html -o ./" SUNDOWN_PYGMENTIZE_GLUE_TMP_OUT
+#define SUNDOWN_CMD "./sundown.exe ./" SUNDOWN_PYGMENTIZE_GLUE_TMP_IN "> ./" SUNDOWN_PYGMENTIZE_GLUE_TMP_OUT
 #else
 #define PYGMENTIZE_CMD "cat ./" SUNDOWN_PYGMENTIZE_GLUE_TMP_IN " | ./pygmentize -l %s -f html -o ./" SUNDOWN_PYGMENTIZE_GLUE_TMP_OUT
 #define SUNDOWN_CMD "./sundown ./" SUNDOWN_PYGMENTIZE_GLUE_TMP_IN "> ./" SUNDOWN_PYGMENTIZE_GLUE_TMP_OUT

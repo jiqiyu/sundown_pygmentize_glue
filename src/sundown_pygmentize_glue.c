@@ -16,7 +16,9 @@
 #define SUNDOWN_PYGMENTIZE_GLUE_STUB_LEN (sizeof(SUNDOWN_PYGMENTIZE_GLUE_STUB_) - 1)
 #define SUNDOWN_PYGMENTIZE_GLUE_CSS_FILE "./style.css"
 
-#if defined(_WIN32) || defined(__CYGWIN__)
+#define NL "\n"
+
+#if defined(_WIN32)/* || defined(__CYGWIN__)*/
 #define PYGMENTIZE_CMD "type " SUNDOWN_PYGMENTIZE_GLUE_TMP_IN " | pygmentize.bat -l %s -f html -o ./" SUNDOWN_PYGMENTIZE_GLUE_TMP_OUT
 #define SUNDOWN_CMD "sundown.exe ./" SUNDOWN_PYGMENTIZE_GLUE_TMP_IN "> ./" SUNDOWN_PYGMENTIZE_GLUE_TMP_OUT
 #else
@@ -74,7 +76,7 @@ block_t *alloc_block(void)
     new_block = alloc_block();\
     if (!new_block)\
     {\
-        fprintf(stderr, "alloc_block failed.\r\n");\
+        fprintf(stderr, "alloc_block failed." NL "");\
         goto failed;\
     }\
     if (last_block)\
@@ -93,7 +95,7 @@ block_t *alloc_block(void)
     (_block)->content = realloc((_block)->content, (_block)->length + _lenval);\
     if (!(_block)->content)\
     {\
-        fprintf(stderr, "realloc failed.\r\n");\
+        fprintf(stderr, "realloc failed." NL "");\
         goto failed;\
     }\
     memcpy((_block)->content + (_block)->length, \
@@ -118,12 +120,12 @@ static void write_css(FILE *out)
     {
         return;
     }
-    fprintf(out, "<style>\r\n");
+    fprintf(out, "<style>" NL "");
     while (fgets(line, sizeof(line)- 1, fp) > 0)
     {
         fwrite(line, strlen(line), 1, out);
     }
-    fprintf(out, "</style>\r\n");
+    fprintf(out, "</style>" NL "");
     fclose(fp);
 }
 
@@ -136,12 +138,12 @@ static int dispatch_tool(const char *cmd,
     FILE *tmp_in = fopen("./" SUNDOWN_PYGMENTIZE_GLUE_TMP_IN, "wb");
     if (!tmp_in)
     {
-        fprintf(stderr, "fopen " SUNDOWN_PYGMENTIZE_GLUE_TMP_IN " failed.\r\n");
+        fprintf(stderr, "fopen " SUNDOWN_PYGMENTIZE_GLUE_TMP_IN " failed." NL "");
         return -1;
     }
     if (1 != fwrite(input->content, input->length, 1, tmp_in))
     {
-        fprintf(stderr, "fwrite " SUNDOWN_PYGMENTIZE_GLUE_TMP_IN " failed.\r\n");
+        fprintf(stderr, "fwrite " SUNDOWN_PYGMENTIZE_GLUE_TMP_IN " failed." NL "");
         return -1;
     }
     fclose(tmp_in);
@@ -154,7 +156,7 @@ static int dispatch_tool(const char *cmd,
         tmp_out = fopen("./" SUNDOWN_PYGMENTIZE_GLUE_TMP_OUT, "rb");
         if (!tmp_out)
         {
-            fprintf(stderr, "fopen " SUNDOWN_PYGMENTIZE_GLUE_TMP_OUT " failed.\r\n");
+            fprintf(stderr, "fopen " SUNDOWN_PYGMENTIZE_GLUE_TMP_OUT " failed." NL "");
             result = -1;
             goto failed;
         }
@@ -229,7 +231,7 @@ int main(int argc, char *argv[])
                     lexerlen = strlen(lexer);
                     if (lexerlen + 1 > sizeof(last_block->lexer))
                     {
-                        fprintf(stderr, "lexel(%s) too long.\r\n", lexer);
+                        fprintf(stderr, "lexel(%s) too long." NL "", lexer);
                         goto failed;
                     }
                     memcpy(last_block->lexer,
@@ -278,7 +280,7 @@ int main(int argc, char *argv[])
         {
             fprintf(out, "%c", loop_block->content[i]);
         }
-        fprintf(out, "}\r\n");
+        fprintf(out, "}" NL "");
     }
     */
     
@@ -303,29 +305,29 @@ int main(int argc, char *argv[])
     }
     
     //fprintf(out, "%s", glue_block.content);
-    //fprintf(stderr, "begin:%s\r\n", SUNDOWN_CMD);
+    //fprintf(stderr, "begin:%s" NL "", SUNDOWN_CMD);
     memset(&sundown_output_block, 0, sizeof(sundown_output_block));
     result = dispatch_tool(SUNDOWN_CMD,
         &glue_block,
         &sundown_output_block);
     if (0 != result)
     {
-        fprintf(stderr, "sundown failed.\r\n");
+        fprintf(stderr, "sundown failed." NL "");
         goto failed;
     }
-    //fprintf(stderr, "end:%s\r\n", SUNDOWN_CMD);
+    //fprintf(stderr, "end:%s" NL "", SUNDOWN_CMD);
     p = sundown_output_block.content;
     stop = p + sundown_output_block.length;
     
     //fwrite(p, stop - p, 1, out);
     //return 0;
     
-    fprintf(out, "<html>\r\n");
-    fprintf(out, "<head>\r\n");
-    fprintf(out, "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />\r\n");
+    fprintf(out, "<html>" NL "");
+    fprintf(out, "<head>" NL "");
+    fprintf(out, "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />" NL "");
     write_css(out);
-    fprintf(out, "</head>\r\n");
-    fprintf(out, "<body>\r\n");
+    fprintf(out, "</head>" NL "");
+    fprintf(out, "<body>" NL "");
     
     while (p < stop)
     {
@@ -345,9 +347,9 @@ int main(int argc, char *argv[])
             pyg_in = (block_t *)strtoul(numstr, 0, 16);
             if (pyg_in->is_inline)
             {
-                fprintf(out, "<span class=\"inline\">");
+                fprintf(out, "<code>");
                 fwrite(pyg_in->content, pyg_in->length, 1, out);
-                fprintf(out, "</span>");
+                fprintf(out, "</code>");
             }
             else
             {
@@ -358,11 +360,11 @@ int main(int argc, char *argv[])
                     sprintf(cmdline,
                         PYGMENTIZE_CMD,
                         pyg_in->lexer);
-                    //fprintf(stderr, "begin:%s\r\n", cmdline);
+                    //fprintf(stderr, "begin:%s" NL "", cmdline);
                     result = dispatch_tool(cmdline,
                         pyg_in,
                         &pyg_out);
-                    //fprintf(stderr, "end:%s result:%d\r\n", cmdline, result);
+                    //fprintf(stderr, "end:%s result:%d" NL "", cmdline, result);
                 }
                 if (0 == result)
                 {
